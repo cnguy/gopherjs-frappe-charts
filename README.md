@@ -46,7 +46,7 @@ where `static.js` is the name of your bundled JS file when your folder is named 
 The basic development flow of this library is:
 
 1) Chart data: Declare your data via NewDataset() and labels
-2) Chart args: Declare the basic core arguments via NewChartArgs()
+2) Chart args: Declare the basic core arguments via NewChartArgs(), and then set extra config if needed (heatline, is_navigable)
 3) Call Render() on the chart args, which returns a reference to a Chart object that you can call various methods on (ShowSums, ShowAverages)
 
 Hello world:
@@ -77,13 +77,13 @@ func main() {
 			[]interface{}{25, 50, -10, 15, 18, 32, 27, 14},
 		),
 	}
-    
-        // Prepare constructor arguments via the NewChartArgs helper
-        chartArgs := charts.NewChartArgs("#chart", "My Awesome Chart", "bar", chartData, 250)
-		// chartArgs.Parent = "#chart"
-		// chartArgs.Title = "My Awesome Chart"
-        // chartArgs.IsNavigable = ...
-        // chartArgs.Heatline = ...
+	
+	// Prepare constructor arguments via the NewChartArgs helper
+	chartArgs := charts.NewChartArgs("#chart", "My Awesome Chart", "bar", chartData, 250)
+	// chartArgs.Parent = "#chart"
+	// chartArgs.Title = "My Awesome Chart"
+	// chartArgs.IsNavigable = ...
+	// chartArgs.Heatline = ...
 
 	chart := chartArgs.Render()
 	println(chart) // to suppress the annoying error
