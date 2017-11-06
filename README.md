@@ -17,6 +17,8 @@ Make sure you also have the [necessary JS files](https://github.com/frappe/chart
 
 Currently, this API supports frappe-chart version 0.0.3.
 
+Dependencies are managed via [dep](https://github.com/golang/dep).
+
 ### Usage
 
 Hello world:
