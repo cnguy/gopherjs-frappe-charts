@@ -21,7 +21,27 @@ Dependencies are managed via [dep](https://github.com/golang/dep).
 
 ### Usage
 
+Following examples assume an HTML file like so:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>GopherJS bindings for frappe-charts</title>
+</head>
+<body>
+	<div id="chart"></div>
+	<script src="https://unpkg.com/frappe-charts@0.0.3/dist/frappe-charts.min.iife.js"></script>
+	<script src="static.js" data-cover></script>
+</body>
+</html>
+```
+
+where `static.js` is the name of your bundled JS file when your folder is named `static` and you run `gopherjs build`.
+
 Hello world:
+
 ```go
 package main
 
@@ -67,6 +87,7 @@ Output 1:
 ![Alt text](/_pictures/hello_world.png?raw=true "Hello World")
 
 Navigable:
+
 ```go
 package main
 
@@ -101,6 +122,7 @@ Output 2:
 ![Alt text](/_pictures/navigable.gif?raw=true "Navigable")
 
 Line Properties:
+
 ```go
 package main
 
