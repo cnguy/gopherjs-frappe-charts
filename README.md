@@ -40,6 +40,12 @@ Following examples assume an HTML file like so:
 
 where `static.js` is the name of your bundled JS file when your folder is named `static` and you run `gopherjs build`.
 
+The basic development flow of this library is:
+
+1) Chart data: Declare your data via NewDataset() and labels
+2) Chart args: Declare the basic core arguments via NewChartArgs()
+3) Call Render() on the chart args, which returns a reference to a Chart object that you can call various methods on (ShowSums, ShowAverages)
+
 Hello world:
 
 ```go
@@ -69,11 +75,10 @@ func main() {
 		),
 	}
     
-        // Prepare constructor arguments
+        // Prepare constructor arguments via the NewChartArgs helper
         chartArgs := charts.NewChartArgs("#chart", "My Awesome Chart", "bar", chartData, 250)
-        // You can also manually set the arguments. The helper above
-        // is simply to get the most important details set.
-        // chartArgs.Parent = ...
+		// chartArgs.Parent = "#chart"
+		// chartArgs.Title = "My Awesome Chart"
         // chartArgs.IsNavigable = ...
         // chartArgs.Heatline = ...
 
