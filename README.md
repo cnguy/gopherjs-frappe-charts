@@ -1,4 +1,7 @@
-# GopherJS bindings for the recently popular [frappe/charts](https://github.com/frappe/charts) library
+# GopherJS bindings for [frappe/charts](https://github.com/frappe/charts) 
+
+[![Go Report Card](https://goreportcard.com/badge/github.com/cnguy/gopherjs-frappe-charts)](https://goreportcard.com/report/github.com/cnguy/gopherjs-frappe-charts)
+[![GoDoc](https://godoc.org/github.com/cnguy/gopherjs-frappe-charts?status.svg)](https://godoc.org/github.com/cnguy/gopherjs-frappe-charts)
 
 ## Contents
 * [Installation](#installation)
