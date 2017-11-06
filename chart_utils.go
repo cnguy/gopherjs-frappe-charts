@@ -1,12 +1,26 @@
 package charts
 
-import "honnef.co/go/js/dom"
+import (
+	"github.com/gopherjs/gopherjs/js"
+)
 
-type eventListenerCallback func(event dom.Event)
+type DataSelectEvent struct {
+	*js.Object
+	Value interface{} `js:"value"`
+	Label interface{} `js:"label"`
+	Index int         `js:"index"`
+}
 
-func (chart *Chart) AddEventListener(eventName string, useCapture bool, fn eventListenerCallback) {
+type eventListenerCallback func(event *DataSelectEvent)
+
+func (chart *Chart) AddEventListener(eventName string, fn eventListenerCallback) {
 	parent := chart.Get("parent").Get("id").String()
-	d := dom.GetWindow().Document()
-	h := d.GetElementByID(parent)
-	h.AddEventListener(eventName, useCapture, fn)
+	element := js.Global.Get("document").Call("getElementById", parent)
+	element.Call("addEventListener", eventName, fn)
+}
+
+// AddDataSelectListener is a helper function to allow users to quickly set a data-select event.
+// This allows users to access the index, value, and label of any particular data point!
+func (chart *Chart) AddDataSelectListener(fn eventListenerCallback) {
+	chart.AddEventListener("data-select", fn)
 }

@@ -4,7 +4,7 @@ import "github.com/gopherjs/gopherjs/js"
 
 type UpdateValuesArgs struct {
 	Values []*UpdateValueSet
-	Labels []string
+	Labels []interface{}
 }
 
 type UpdateValueSet struct {
@@ -12,8 +12,9 @@ type UpdateValueSet struct {
 	Values []interface{} `js:"values"`
 }
 
-func NewUpdateValueSet() *UpdateValueSet {
+func NewUpdateValueSet(values []interface{}) *UpdateValueSet {
 	new := &UpdateValueSet{Object: js.Global.Get("Object").New()}
+	new.Values = values
 	return new
 }
 
