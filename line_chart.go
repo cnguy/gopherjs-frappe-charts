@@ -62,7 +62,7 @@ func (chart *LineChart) AppendDataPoint(values []interface{}, label string) {
 	chart.Call("add_data_point", values, label)
 }
 
-func (chart *LineChart) AddDataPoint(values interface{}, label string, index int) {
+func (chart *LineChart) AddDataPoint(values []interface{}, label string, index int) {
 	chart.Call("add_data_point", values, label, index)
 }
 
