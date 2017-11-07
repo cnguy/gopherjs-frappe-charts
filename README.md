@@ -60,6 +60,7 @@ The basic development flow of this library is:
 * [Line Properties](#line-properties)
 * [Simple Aggregations](#simple-aggregations)
 * [Event Listener](#event-listener)
+* [Heatmaps](#heatmaps)
 
 #### Hello World:
 
@@ -301,6 +302,38 @@ func main() {
 Output 5:
 
 ![Alt text](/_pictures/event_listener.gif?raw=true "Event Listener")
+
+#### Heatmaps
+
+```go
+package main
+
+import (
+	"math/rand"
+	"strconv"
+
+	charts "github.com/cnguy/gopherjs-frappe-charts"
+)
+
+func main() {
+	data := make(map[string]interface{})
+	currentTimestamp := 1477699200
+	for i := 0; i < 375; i++ {
+		data[strconv.Itoa(currentTimestamp)] = rand.Intn(10)
+		currentTimestamp += 86400
+	}
+	chartArgs := charts.NewHeatmapArgs("#chart", data, 115)
+	chartArgs.Render()
+}
+```
+
+##### With discrete domains set to default
+
+![Alt text](/_pictures/heatmap_0.gif?raw=true "Heatmap 0")
+
+##### With discrete domains set to 1 via chartArgs.SetDiscreteDomain(true)
+
+![Alt text](/_pictures/heatmap_1.gif?raw=true "Heatmap 1")
 
 ### Disclaimer
 
