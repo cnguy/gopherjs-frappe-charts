@@ -5,6 +5,8 @@
 
 `Simple, responsive, modern SVG Charts with zero dependencies`
 
+![Alt text](/_pictures/event_listener.gif?raw=true "Event Listener")
+
 ## Contents
 * [Installation](#installation)
 * [Usage](#usage)
@@ -298,7 +300,7 @@ func main() {
 
 Output 5:
 
-![Alt text](/_pictures/event_listener.gif?raw=true "Event Listenre")
+![Alt text](/_pictures/event_listener.gif?raw=true "Event Listener")
 
 ### Disclaimer
 
