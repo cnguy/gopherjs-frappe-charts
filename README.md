@@ -333,6 +333,13 @@ func main() {
 }
 ```
 
+##### With discrete domains set to default
+
+![Alt text](/_pictures/heatmap_0.gif?raw=true "Heatmap 0")
+
+##### With discrete domains set to 1 via chartArgs.SetDiscreteDomain(true)
+
+![Alt text](/_pictures/heatmap_1.gif?raw=true "Heatmap 1")
 #### Realtime
 
 ```go
@@ -396,14 +403,6 @@ func main() {
 Output 6:
 
 ![Alt text](/_pictures/realtime.gif?raw=true "Realtime")
-
-##### With discrete domains set to default
-
-![Alt text](/_pictures/heatmap_0.gif?raw=true "Heatmap 0")
-
-##### With discrete domains set to 1 via chartArgs.SetDiscreteDomain(true)
-
-![Alt text](/_pictures/heatmap_1.gif?raw=true "Heatmap 1")
 
 ### Disclaimer
 
