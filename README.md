@@ -52,8 +52,11 @@ where `static.js` is the name of your bundled JS file when your folder is named 
 The basic development flow of this library is:
 
 1) Chart data: Declare your data via NewDataset() and labels
-2) Chart args: Declare the basic core arguments via NewChartArgs(), and then set extra config if needed (heatline, is_navigable)
+	a) An exception is Heatmap which simply takes a map[string]{interface}
+2) Chart args: Declare the basic core arguments via NewXXXChartArgs(), and then set extra config if needed (heatline, is_navigable), where `XXX` is Bar, Scatter, etc..
 3) Call Render() on the chart args, which returns a reference to a Chart object that you can call various methods on (ShowSums, ShowAverages)
+
+Basically, every type of frappe-chart (Bar, Scatter, etc) are divided into separate classes so that there's more type-safety. For example, frappe_chart.show_sums() only works on bar charts, but it's still callable on the line chart (even though it doesn't work). I simply just don't include this method in the struct LineChart. I'm not doing any inheritance stuffs atm since I hacked this together really fast. Will clean up code as I improve though!
 
 * [Hello World](#hello-world)
 * [Navigable](#navigable)
@@ -68,7 +71,7 @@ The basic development flow of this library is:
 package main
 
 import (
-    charts "github.com/cnguy/gopherjs-frappe-charts"
+	charts "github.com/cnguy/gopherjs-frappe-charts"
 )
 
 func main() {
@@ -90,9 +93,9 @@ func main() {
 			[]interface{}{25, 50, -10, 15, 18, 32, 27, 14},
 		),
 	}
-	
+
 	// Prepare constructor arguments via the NewChartArgs helper
-	chartArgs := charts.NewChartArgs("#chart", "My Awesome Chart", "bar", chartData, 250)
+	chartArgs := charts.NewBarChartArgs("#chart", "My Awesome Chart", chartData, 250)
 	// chartArgs.Parent = "#chart"
 	// chartArgs.Title = "My Awesome Chart"
 	// chartArgs.IsNavigable = ...
@@ -127,12 +130,13 @@ func main() {
 	chartData.Datasets = []*charts.Dataset{dataset}
 
 	// Prepare constructor arguments
-	chartTitle := "Fireball/Bolide Events - Yearly (more than 5 reports"
-	chartArgs := charts.NewChartArgs("#chart", chartTitle, "bar", chartData, 180)
+	chartTitle := "Fireball/Bolide Events - Yearly (more than 5 reports)"
+	chartArgs := charts.NewBarChartArgs("#chart", chartTitle, chartData, 180)
 	chartArgs.SetIsNavigable(true) // chartArgs.IsNavigable = 1
-	chartArgs.SetIsSeries(true) // chartArgs.IsSeries = 1
+	chartArgs.SetIsSeries(true)    // chartArgs.IsSeries = 1
 
 	chart := chartArgs.Render()
+	println(chart)
 }
 ```
 
@@ -173,7 +177,7 @@ func main() {
 
 	// Prepare constructor arguments
 	chartTitle := "Mean Total Sunspot Count - Yearly"
-	chartArgs := charts.NewChartArgs("#chart", chartTitle, "line", chartData, 180)
+	chartArgs := charts.NewLineChartArgs("#chart", chartTitle, chartData, 180)
 	chartArgs.SetShowDots(false)
 	chartArgs.SetHeatline(true)
 	chartArgs.SetRegionFill(true)
@@ -182,6 +186,7 @@ func main() {
 	chartArgs.SetIsSeries(true)
 
 	chart := chartArgs.Render()
+	println(chart)
 }
 ```
 
@@ -212,7 +217,7 @@ func main() {
 	}
 
 	// Prepare constructor arguments
-	chartArgs := charts.NewChartArgs("#chart", "", "bar", chartData, 250)
+	chartArgs := charts.NewBarChartArgs("#chart", "", chartData, 250)
 
 	chart := chartArgs.Render()
 
@@ -256,7 +261,7 @@ func main() {
 		charts.NewDataset("Events", "orange", reportCountList),
 	}
 	barChartTitle := "Fireball/Bolide Events - Yearly (more than 5 reports"
-	barChartArgs := charts.NewChartArgs("#chart", barChartTitle, "bar", barChartData, 180)
+	barChartArgs := charts.NewBarChartArgs("#chart", barChartTitle, barChartData, 180)
 	barChartArgs.SetIsNavigable(true)
 	barChartArgs.SetIsSeries(true)
 	barChart := barChartArgs.Render()
@@ -270,7 +275,7 @@ func main() {
 	lineChartData.Datasets = []*charts.Dataset{
 		charts.NewDataset("", "green", lineChartValues),
 	}
-	lineChartArgs := charts.NewChartArgs("#chart-2", "", "line", lineChartData, 180)
+	lineChartArgs := charts.NewLineChartArgs("#chart-2", "", lineChartData, 180)
 	lineChartArgs.SetIsSeries(true)
 	lineChart := lineChartArgs.Render()
 

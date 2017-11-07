@@ -8,26 +8,7 @@
     <div id="chart"></div>
     <div id="chart-2"></div>
     <div id="heatmap"></div>
-    <script src="https://unpkg.com/frappe-charts@0.0.3/dist/frappe-charts.min.iife.js"></script>
+    <script src="https://unpkg.com/frappe-charts@0.0.4/dist/frappe-charts.min.iife.js"></script>
     <script src="static.js" data-cover></script>
-    <script>
-        let heatmap_data = {};
-let current_date = new Date();
-let timestamp = current_date.getTime()/1000;
-timestamp = Math.floor(timestamp - (timestamp % 86400)).toFixed(1); // convert to midnight
-for (var i = 0; i< 5; i++) {
-	heatmap_data[parseInt(timestamp)] = Math.floor(Math.random() * 6);
-	timestamp = Math.floor(timestamp - 86400).toFixed(1);
-}
-console.log(heatmap_data)
-heatmap_data = {}
-chart = new Chart({
-	parent: "#heatmap",
-	data: heatmap_data,
-    type: 'heatmap',
-	//height: 515,
-//	discrete_domains: 1  // default 0
-});
-        </script>
 </body>
 </html>
