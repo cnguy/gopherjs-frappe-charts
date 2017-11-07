@@ -3,7 +3,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/cnguy/gopherjs-frappe-charts)](https://goreportcard.com/report/github.com/cnguy/gopherjs-frappe-charts)
 [![GoDoc](https://godoc.org/github.com/cnguy/gopherjs-frappe-charts?status.svg)](https://godoc.org/github.com/cnguy/gopherjs-frappe-charts)
 
-`Simple, responsive, modern SVG Charts with zero dependencies`
+"`Simple, responsive, modern SVG Charts with zero dependencies`"
 
 ![Alt text](/_pictures/event_listener.gif?raw=true "Event Listener")
 
@@ -376,7 +376,7 @@ func main() {
 	chart := chartArgs.Render()
 	for i := 0; i < 100; i++ {
 		go func(i interface{}) {
-			val := rand.Intn(5) + 2*i.(int)
+			val := rand.Intn(3) + 2*i.(int)
 			println(i, "sleeping for", val)
 			time.Sleep(time.Duration(val) * time.Second)
 			newLabel := strconv.Itoa(temp)

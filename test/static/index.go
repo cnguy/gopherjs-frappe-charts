@@ -31,7 +31,7 @@ func main() {
 	chart := chartArgs.Render()
 	for i := 0; i < 100; i++ {
 		go func(i interface{}) {
-			val := rand.Intn(5) + 2*i.(int)
+			val := rand.Intn(3) + 2*i.(int)
 			println(i, "sleeping for", val)
 			time.Sleep(time.Duration(val) * time.Second)
 			newLabel := strconv.Itoa(temp)
