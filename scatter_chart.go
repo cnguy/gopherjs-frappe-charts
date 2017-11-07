@@ -21,7 +21,7 @@ func NewScatterChartArgs(parent string, title string, data *ChartData, height in
 	new := &ScatterChartArgs{Object: js.Global.Get("Object").New()}
 	new.Parent = parent
 	new.Title = title
-	new.Type = "line"
+	new.Type = "scatter"
 	new.Data = data
 	new.Height = height
 	return new
