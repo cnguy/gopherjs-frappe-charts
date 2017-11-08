@@ -8,7 +8,7 @@ import "github.com/gopherjs/gopherjs/js"
 // Ctrl + F "let data ="
 type ChartData struct {
 	*js.Object
-	Labels         []interface{}    `js:"labels"`
+	Labels         []string         `js:"labels"`
 	Datasets       []*Dataset       `js:"datasets"`
 	SpecificValues []*SpecificValue `js:"specific_values"`
 }

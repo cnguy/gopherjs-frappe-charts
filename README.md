@@ -83,7 +83,7 @@ import (
 func main() {
 	// Prepare data
 	chartData := charts.NewChartData()
-	chartData.Labels = []interface{}{
+	chartData.Labels = []string{
 		"12am-3am", "3am-6pm", "6am-9am", "9am-12am",
 		"12pm-3pm", "3pm-6pm", "6pm-9pm", "9am-12am",
 	}
@@ -128,7 +128,7 @@ import (
 func main() {
 	// Prepare data
 	chartData := charts.NewChartData()
-	chartData.Labels = []interface{}{
+	chartData.Labels = []string{
 		"2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017",
 	}
 	values := []interface{}{17, 40, 33, 44, 126, 156, 324, 333, 478, 495, 373}
@@ -159,18 +159,19 @@ package main
 
 import (
 	charts "github.com/cnguy/gopherjs-frappe-charts"
+	chartsUtils "github.com/cnguy/gopherjs-frappe-charts/utils"
 )
 
 func main() {
 	// Prepare data
 	chartData := charts.NewChartData()
-	chartData.Labels = []interface{}{
+	chartData.Labels = chartsUtils.NumberLabelsToStr([]int{
 		1967, 1968, 1969, 1970, 1971, 1972, 1973, 1974, 1975, 1976,
 		1977, 1978, 1979, 1980, 1981, 1982, 1983, 1984, 1985, 1986,
 		1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 1995, 1996,
 		1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006,
 		2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016,
-	}
+	})
 	values := []interface{}{
 		132.9, 150.0, 149.4, 148.0, 94.4, 97.6, 54.1, 49.2, 22.5, 18.4,
 		39.3, 131.0, 220.1, 218.9, 198.9, 162.4, 91.0, 60.5, 20.6, 14.8,
@@ -214,7 +215,7 @@ import (
 func main() {
 	// Prepare data
 	chartData := charts.NewChartData()
-	chartData.Labels = []interface{}{
+	chartData.Labels = []string{
 		"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat",
 	}
 	chartData.Datasets = []*charts.Dataset{
@@ -259,7 +260,7 @@ func main() {
 	reportCountList := []interface{}{17, 40, 33, 44, 126, 156,
 		324, 333, 478, 495, 373}
 	barChartData := charts.NewChartData()
-	barChartData.Labels = []interface{}{
+	barChartData.Labels = []string{
 		"2007", "2008", "2009", "2010", "2011", "2012",
 		"2013", "2014", "2015", "2016", "2017",
 	}
@@ -275,7 +276,7 @@ func main() {
 	// Make line chart
 	lineChartValues := []interface{}{36, 46, 45, 32, 27, 31, 30, 36, 39, 49, 0, 0}
 	lineChartData := charts.NewChartData()
-	lineChartData.Labels = []interface{}{
+	lineChartData.Labels = []string{
 		"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
 	}
 	lineChartData.Datasets = []*charts.Dataset{
@@ -361,7 +362,7 @@ import (
 
 func main() {
 	chartData := charts.NewChartData()
-	chartData.Labels = []interface{}{
+	chartData.Labels = []string{
 		"1", "2", "3",
 	}
 	chartData.Datasets = []*charts.Dataset{

@@ -10,7 +10,7 @@ import (
 // Ctrl + F "update_values"
 type UpdateValuesArgs struct {
 	Values []*UpdateValueSet
-	Labels []interface{}
+	Labels []string
 }
 
 // UpdateValueSet represents the JS object frappe-chart uses
