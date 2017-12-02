@@ -376,17 +376,16 @@ func main() {
 	chartData.Datasets = []*charts.Dataset{
 		charts.NewDataset(
 			"Some Data",
-			"light-blue",
 			[]interface{}{25, 40, 30},
 		),
 		charts.NewDataset(
 			"Another Set",
-			"violet",
 			[]interface{}{25, 50, -10},
 		),
 	}
 
 	chartArgs := charts.NewScatterChartArgs("#chart", "", chartData, 250)
+	chartArgs.Colors = []string{"light-blue", "violet"}
 	temp := 4
 	chart := chartArgs.Render()
 	for i := 0; i < 100; i++ {
