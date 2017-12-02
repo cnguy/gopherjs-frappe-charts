@@ -15,6 +15,7 @@ Various chart operations (append, remove, pop) with randomized data and actions:
 
 ## Contents
 * [Installation](#installation)
+* [Breaking Changes](#breaking-changes)
 * [Usage](#usage)
 * [Disclaimer](#disclaimer)
 * [Contributions](#contributions)
@@ -33,6 +34,12 @@ Currently, this API supports frappe-chart version 0.0.3.
 Dependencies will be managed via [dep](https://github.com/golang/dep) in the future.
 
 Unfortunately, `gopherjs` is not [vendorable](https://github.com/gopherjs/gopherjs/issues/415) at the moment.
+
+### Breaking Changes
+
+This libary seeks to be updated to always work with the latest version of frappe charts. It also seeks to have a clean API so that users can easily bring in charts into their GopherJS-based website. One can also expect that this library will improve as I improve at Go.
+
+Frappe hasn't changed their API dramatically so far, so one can expect that this library won't change dramatically as well. If there are breaking changes, it should be easy to update one's code by simply following the type errors.
 
 ### Usage
 
