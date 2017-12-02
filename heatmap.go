@@ -12,6 +12,7 @@ type HeatmapArgs struct {
 	Type            string                 `js:"type"`
 	Height          int                    `js:"height"`
 	DiscreteDomains int                    `js:"discrete_domains"`
+	LegendColors    []string               `js:"legend_colors"`
 }
 
 func NewHeatmapArgs(parent string, data map[string]interface{}, height int) *HeatmapArgs {

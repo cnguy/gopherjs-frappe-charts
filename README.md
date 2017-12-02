@@ -90,18 +90,17 @@ func main() {
 	chartData.Datasets = []*charts.Dataset{
 		charts.NewDataset(
 			"Some Data",
-			"light-blue",
 			[]interface{}{25, 40, 30, 35, 8, 52, 17, -4},
 		),
 		charts.NewDataset(
 			"Another Set",
-			"violet",
 			[]interface{}{25, 50, -10, 15, 18, 32, 27, 14},
 		),
 	}
 
 	// Prepare constructor arguments via the NewChartArgs helper
 	chartArgs := charts.NewBarChartArgs("#chart", "My Awesome Chart", chartData, 250)
+	chartArgs.Colors = []string{"light-blue", "violet"}
 	// chartArgs.Parent = "#chart"
 	// chartArgs.Title = "My Awesome Chart"
 	// chartArgs.IsNavigable = ...
@@ -119,7 +118,6 @@ Output 1:
 #### Navigable:
 
 ```go
-package main
 
 import (
 	charts "github.com/cnguy/gopherjs-frappe-charts"
@@ -132,12 +130,13 @@ func main() {
 		"2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017",
 	}
 	values := []interface{}{17, 40, 33, 44, 126, 156, 324, 333, 478, 495, 373}
-	dataset := charts.NewDataset("Events", "orange", values)
+	dataset := charts.NewDataset("Events", values)
 	chartData.Datasets = []*charts.Dataset{dataset}
 
 	// Prepare constructor arguments
 	chartTitle := "Fireball/Bolide Events - Yearly (more than 5 reports)"
 	chartArgs := charts.NewBarChartArgs("#chart", chartTitle, chartData, 180)
+	chartArgs.Colors = []string{"orange"}
 	chartArgs.SetIsNavigable(true) // chartArgs.IsNavigable = 1
 	chartArgs.SetIsSeries(true)    // chartArgs.IsSeries = 1
 
@@ -179,12 +178,13 @@ func main() {
 		28.9, 88.3, 136.3, 173.9, 170.4, 163.6, 99.3, 65.3, 45.8, 24.7,
 		12.6, 4.2, 4.8, 24.9, 80.8, 84.5, 94.0, 113.3, 69.8, 39.8,
 	}
-	dataset := charts.NewDataset("", "blue", values)
+	dataset := charts.NewDataset("", values)
 	chartData.Datasets = []*charts.Dataset{dataset}
 
 	// Prepare constructor arguments
 	chartTitle := "Mean Total Sunspot Count - Yearly"
 	chartArgs := charts.NewLineChartArgs("#chart", chartTitle, chartData, 180)
+	chartArgs.Colors = []string{"blue"}
 	chartArgs.SetShowDots(false)
 	chartArgs.SetHeatline(true)
 	chartArgs.SetRegionFill(true)
@@ -219,12 +219,13 @@ func main() {
 		"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat",
 	}
 	chartData.Datasets = []*charts.Dataset{
-		charts.NewDataset("", "purple", []interface{}{25, 40, 30, 35, 8, 52, 17}),
-		charts.NewDataset("", "orange", []interface{}{25, 50, -10, 15, 18, 32, 27}),
+		charts.NewDataset("", []interface{}{25, 40, 30, 35, 8, 52, 17}),
+		charts.NewDataset("", []interface{}{25, 50, -10, 15, 18, 32, 27}),
 	}
 
 	// Prepare constructor arguments
 	chartArgs := charts.NewBarChartArgs("#chart", "", chartData, 250)
+	chartArgs.Colors = []string{"purple", "orange"}
 
 	chart := chartArgs.Render()
 
@@ -336,6 +337,8 @@ func main() {
 		currentTimestamp += 86400
 	}
 	chartArgs := charts.NewHeatmapArgs("#chart", data, 115)
+	// Halloween colors
+	// chartArgs.LegendColors = []string{"#ebedf0", "#fdf436", "#ffc700", "#ff9100", "#06001c"}
 	chartArgs.Render()
 }
 ```
@@ -347,6 +350,11 @@ func main() {
 ##### With discrete domains set to 1 via chartArgs.SetDiscreteDomain(true)
 
 ![Alt text](/_pictures/heatmap_1.gif?raw=true "Heatmap 1")
+
+##### With different colors
+
+![Alt text](/_pictures/heatmap_2.png?raw=true "Heatmap 2")
+
 #### Realtime
 
 ```go

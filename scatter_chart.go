@@ -14,6 +14,7 @@ type ScatterChartArgs struct {
 	Data      *ChartData `js:"data"`
 	Type      string     `js:"type"`
 	Height    int        `js:"height"`
+	Colors    []string   `js:"colors"`
 	XAxisMode string     `js:"x_axis_mode"`
 	YAxisMode string     `js:"y_axis_mode"`
 	IsSeries  int        `js:"is_series"`

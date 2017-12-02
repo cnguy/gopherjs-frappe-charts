@@ -13,6 +13,7 @@ type PieChartArgs struct {
 	Data   *ChartData `js:"data"`
 	Type   string     `js:"type"`
 	Height int        `js:"height"`
+	Colors []string   `js:"colors"`
 }
 
 // NewPieChartsArgs is a helper to instantiate a pie chart.

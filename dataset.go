@@ -3,10 +3,9 @@ package charts
 import "github.com/gopherjs/gopherjs/js"
 
 // NewDataset allows us to quickly create Dataset objects with the required values.
-func NewDataset(title string, color string, values []interface{}) (dataset *Dataset) {
+func NewDataset(title string, values []interface{}) (dataset *Dataset) {
 	dataset = &Dataset{Object: js.Global.Get("Object").New()}
 	dataset.Title = title
-	dataset.Color = color
 	dataset.Values = values
 	return dataset
 }
@@ -18,6 +17,5 @@ func NewDataset(title string, color string, values []interface{}) (dataset *Data
 type Dataset struct {
 	*js.Object
 	Title  string        `js:"title"`
-	Color  string        `js:"color"`
 	Values []interface{} `js:"values"`
 }

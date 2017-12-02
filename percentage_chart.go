@@ -13,6 +13,7 @@ type PercentageChartArgs struct {
 	Data   *ChartData `js:"data"`
 	Type   string     `js:"type"`
 	Height int        `js:"height"`
+	Colors []string   `js:"colors"`
 }
 
 // NewPercentageChartsArgs is a helper to instantiate a percentage chart.
