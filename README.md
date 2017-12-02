@@ -58,8 +58,8 @@ where `static.js` is the name of your bundled JS file when your folder is named 
 The basic development flow of this library is:
 
 1) Chart data: Declare your data via NewDataset() and labels (an exception is Heatmap which simply takes a map[string]{interface})
-2) Chart args: Declare the basic core arguments via NewXXXChartArgs(), and then set extra config if needed (heatline, is_navigable), where `XXX` is Bar, Scatter, etc..
-3) Call Render() on the chart args, which returns a reference to a Chart object that you can call various methods on (ShowSums, ShowAverages)
+2) Chart args: Declare the basic core arguments via NewXXXChartArgs(), and then set extra config if needed (heatline, is_navigable), where `XXX` is Bar, Scatter, etc.. Note that it's easy to swap NewXXXChartArgs to a different chart just by changing the name due to the fact that the API for each chart works the same.
+3) Call Render() on the chart args (which may also return a chart object which you can call certain functions on such as ShowSum, ShowAverages). 
 
 Basically, every type of frappe-chart (Bar, Scatter, etc) are divided into separate classes so that there's more type-safety. For example, frappe_chart.show_sums() only works on bar charts, but it's still callable on the line chart (even though it doesn't work). I simply just don't include this method in the struct LineChart. I'm not doing any inheritance stuffs atm since I hacked this together really fast. Will clean up code as I improve though!
 
@@ -100,6 +100,8 @@ func main() {
 
 	// Prepare constructor arguments via the NewChartArgs helper
 	chartArgs := charts.NewBarChartArgs("#chart", "My Awesome Chart", chartData, 250)
+	// TIP: Try swapping NewBarChartArgs with NewPercentageChartArgs or NewScatterChartArgs
+	// to see how easy it is to swap to a different type of chart.
 	chartArgs.Colors = []string{"light-blue", "violet"}
 	// chartArgs.Parent = "#chart"
 	// chartArgs.Title = "My Awesome Chart"
@@ -266,10 +268,11 @@ func main() {
 		"2013", "2014", "2015", "2016", "2017",
 	}
 	barChartData.Datasets = []*charts.Dataset{
-		charts.NewDataset("Events", "orange", reportCountList),
+		charts.NewDataset("Events", reportCountList),
 	}
 	barChartTitle := "Fireball/Bolide Events - Yearly (more than 5 reports"
 	barChartArgs := charts.NewBarChartArgs("#chart", barChartTitle, barChartData, 180)
+	barChartArgs.Colors = []string{"orange"}
 	barChartArgs.SetIsNavigable(true)
 	barChartArgs.SetIsSeries(true)
 	barChart := barChartArgs.Render()
@@ -281,9 +284,10 @@ func main() {
 		"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
 	}
 	lineChartData.Datasets = []*charts.Dataset{
-		charts.NewDataset("", "green", lineChartValues),
+		charts.NewDataset("", lineChartValues),
 	}
 	lineChartArgs := charts.NewLineChartArgs("#chart-2", "", lineChartData, 180)
+	lineChartArgs.Colors = []string{"green"}
 	lineChartArgs.SetIsSeries(true)
 	lineChart := lineChartArgs.Render()
 

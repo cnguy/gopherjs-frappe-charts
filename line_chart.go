@@ -8,18 +8,20 @@ import (
 // LineChartArgs represents the configuration arguments that can be used to instantiate a line chart.
 type LineChartArgs struct {
 	*js.Object
-	Parent     string     `js:"parent"`
-	Title      string     `js:"title"`
-	Data       *ChartData `js:"data"`
-	Type       string     `js:"type"`
-	Height     int        `js:"height"`
-	Colors     []string   `js:"colors"`
-	XAxisMode  string     `js:"x_axis_mode"`
-	YAxisMode  string     `js:"y_axis_mode"`
-	IsSeries   int        `js:"is_series"`
-	ShowDots   int        `js:"show_dots"`
-	Heatline   int        `js:"heatline"`
-	RegionFill int        `js:"region_fill"`
+	Parent         string              `js:"parent"`
+	Title          string              `js:"title"`
+	Data           *ChartData          `js:"data"`
+	Type           string              `js:"type"`
+	Height         int                 `js:"height"`
+	Colors         []string            `js:"colors"`
+	XAxisMode      string              `js:"x_axis_mode"`
+	YAxisMode      string              `js:"y_axis_mode"`
+	IsSeries       int                 `js:"is_series"`
+	ShowDots       int                 `js:"show_dots"`
+	Heatline       int                 `js:"heatline"`
+	RegionFill     int                 `js:"region_fill"`
+	FormatTooltipX func(string) string `js:"format_tooltip_x"`
+	FormatTooltipY func(string) string `js:"format_tooltip_y"`
 }
 
 // NewLineChartArgs is a helper to set the most useful arguments.
