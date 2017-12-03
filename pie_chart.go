@@ -16,18 +16,35 @@ type PieChartArgs struct {
 	Colors []string   `js:"colors"`
 }
 
-// NewPieChartsArgs is a helper to instantiate a pie chart.
-func NewPieChartArgs(parent string, title string, data *ChartData, height int) *PieChartArgs {
+func NewPieChart(parent string, data *ChartData) *PieChartArgs {
 	new := &PieChartArgs{Object: js.Global.Get("Object").New()}
 	new.Parent = parent
-	new.Title = title
-	new.Data = data
-	new.Height = height
 	new.Type = "pie"
+	new.Data = data
 	return new
+}
+
+func (chartArgs *PieChartArgs) WithTitle(title string) *PieChartArgs {
+	chartArgs.Title = title
+	return chartArgs
+}
+
+func (chartArgs *PieChartArgs) WithHeight(height int) *PieChartArgs {
+	chartArgs.Height = height
+	return chartArgs
+}
+
+func (chartArgs *PieChartArgs) WithColors(colors []string) *PieChartArgs {
+	chartArgs.Colors = colors
+	return chartArgs
 }
 
 // Render simply renders a pie chart without returning anything, because pie charts don't seem to have any methods yet (in 0.0.3 frappe-charts).
 func (chartArgs *PieChartArgs) Render() {
+	// Set defaults that aren't handled by frappe here.
+	if chartArgs.Height == 0 {
+		chartArgs.Height = 150
+	}
+	// Create actual chart.
 	js.Global.Get("Chart").New(&chartArgs)
 }

@@ -21,22 +21,57 @@ type BarChartArgs struct {
 	FormatTooltipY func(string) string `js:"format_tooltip_y"`
 }
 
-func NewBarChartArgs(parent string, title string, data *ChartData, height int) *BarChartArgs {
+func NewBarChart(parent string, data *ChartData) *BarChartArgs {
 	new := &BarChartArgs{Object: js.Global.Get("Object").New()}
 	new.Parent = parent
-	new.Title = title
 	new.Type = "bar"
 	new.Data = data
-	new.Height = height
 	return new
 }
 
-func (chartArgs *BarChartArgs) SetIsSeries(val bool) {
-	chartArgs.SetBton("is_series", val)
+func (chartArgs *BarChartArgs) WithTitle(title string) *BarChartArgs {
+	chartArgs.Title = title
+	return chartArgs
 }
 
-func (chartArgs *BarChartArgs) SetIsNavigable(val bool) {
+func (chartArgs *BarChartArgs) WithHeight(height int) *BarChartArgs {
+	chartArgs.Height = height
+	return chartArgs
+}
+
+func (chartArgs *BarChartArgs) WithColors(colors []string) *BarChartArgs {
+	chartArgs.Colors = colors
+	return chartArgs
+}
+
+func (chartArgs *BarChartArgs) SetXAxisMode(mode string) *BarChartArgs {
+	chartArgs.XAxisMode = mode
+	return chartArgs
+}
+
+func (chartArgs *BarChartArgs) SetYAxisMode(mode string) *BarChartArgs {
+	chartArgs.YAxisMode = mode
+	return chartArgs
+}
+
+func (chartArgs *BarChartArgs) SetIsSeries(val bool) *BarChartArgs {
+	chartArgs.SetBton("is_series", val)
+	return chartArgs
+}
+
+func (chartArgs *BarChartArgs) SetIsNavigable(val bool) *BarChartArgs {
 	chartArgs.SetBton("is_navigable", val)
+	return chartArgs
+}
+
+func (chartArgs *BarChartArgs) WithFormatTooltipX(callback func(string) string) *BarChartArgs {
+	chartArgs.FormatTooltipX = callback
+	return chartArgs
+}
+
+func (chartArgs *BarChartArgs) WithFormatTooltipY(callback func(string) string) *BarChartArgs {
+	chartArgs.FormatTooltipY = callback
+	return chartArgs
 }
 
 func (chartArgs *BarChartArgs) SetBton(key string, val bool) {
@@ -84,6 +119,11 @@ func (chart *BarChart) HideAverages() {
 }
 
 func (chartArgs *BarChartArgs) Render() *BarChart {
+	// Set defaults that aren't handled by frappe here.
+	if chartArgs.Height == 0 {
+		chartArgs.Height = 150
+	}
+	// Create actual chart.
 	new := BarChart{js.Global.Get("Chart").New(&chartArgs)}
 	return &new
 }

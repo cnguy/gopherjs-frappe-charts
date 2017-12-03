@@ -24,39 +24,75 @@ type LineChartArgs struct {
 	FormatTooltipY func(string) string `js:"format_tooltip_y"`
 }
 
-// NewLineChartArgs is a helper to set the most useful arguments.
-func NewLineChartArgs(parent string, title string, data *ChartData, height int) *LineChartArgs {
+func NewLineChart(parent string, data *ChartData) *LineChartArgs {
 	new := &LineChartArgs{Object: js.Global.Get("Object").New()}
 	new.Parent = parent
-	new.Title = title
 	new.Type = "line"
 	new.Data = data
-	new.Height = height
 	return new
 }
 
+func (chartArgs *LineChartArgs) WithTitle(title string) *LineChartArgs {
+	chartArgs.Title = title
+	return chartArgs
+}
+
+func (chartArgs *LineChartArgs) WithHeight(height int) *LineChartArgs {
+	chartArgs.Height = height
+	return chartArgs
+}
+
+func (chartArgs *LineChartArgs) WithColors(colors []string) *LineChartArgs {
+	chartArgs.Colors = colors
+	return chartArgs
+}
+
+func (chartArgs *LineChartArgs) SetXAxisMode(mode string) *LineChartArgs {
+	chartArgs.XAxisMode = mode
+	return chartArgs
+}
+
+func (chartArgs *LineChartArgs) SetYAxisMode(mode string) *LineChartArgs {
+	chartArgs.YAxisMode = mode
+	return chartArgs
+}
+
 // SetIsSeries allows us to set is_series using a boolean instead of 1/0's.
-func (chartArgs *LineChartArgs) SetIsSeries(val bool) {
+func (chartArgs *LineChartArgs) SetIsSeries(val bool) *LineChartArgs {
 	chartArgs.SetBton("is_series", val)
+	return chartArgs
 }
 
 // SetShowDots allows us to set show_dots using a boolean instead of 1/0's.
-func (chartArgs *LineChartArgs) SetShowDots(val bool) {
+func (chartArgs *LineChartArgs) SetShowDots(val bool) *LineChartArgs {
 	chartArgs.SetBton("show_dots", val)
+	return chartArgs
 }
 
 // SetHeatline allows us to set heatline using a boolean instead of 1/0's.
-func (chartArgs *LineChartArgs) SetHeatline(val bool) {
+func (chartArgs *LineChartArgs) SetHeatline(val bool) *LineChartArgs {
 	chartArgs.SetBton("heatline", val)
+	return chartArgs
 }
 
 // SetRegionFill allows us to set region_fill using a boolean instead of 1/0's.
-func (chartArgs *LineChartArgs) SetRegionFill(val bool) {
+func (chartArgs *LineChartArgs) SetRegionFill(val bool) *LineChartArgs {
 	chartArgs.SetBton("region_fill", val)
+	return chartArgs
 }
 
 func (chartArgs *LineChartArgs) SetBton(key string, val bool) {
 	chartArgs.Set(key, utils.Btoi(val))
+}
+
+func (chartArgs *LineChartArgs) WithFormatTooltipX(callback func(string) string) *LineChartArgs {
+	chartArgs.FormatTooltipX = callback
+	return chartArgs
+}
+
+func (chartArgs *LineChartArgs) WithFormatTooltipY(callback func(string) string) *LineChartArgs {
+	chartArgs.FormatTooltipY = callback
+	return chartArgs
 }
 
 type LineChart struct {
@@ -102,6 +138,11 @@ func (chart *LineChart) HideAverages() {
 
 // Render returns a LineChart that allows users to call the above functions.
 func (chartArgs *LineChartArgs) Render() *LineChart {
+	// Set defaults that aren't handled by frappe here.
+	if chartArgs.Height == 0 {
+		chartArgs.Height = 150
+	}
+	// Create actual chart.
 	new := LineChart{js.Global.Get("Chart").New(&chartArgs)}
 	return &new
 }

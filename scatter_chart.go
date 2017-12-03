@@ -22,23 +22,53 @@ type ScatterChartArgs struct {
 	FormatTooltipY func(string) string `js:"format_tooltip_y"`
 }
 
-// NewScatterChartArgs is a helper that creates a new ScatterChatArgs with important
-// fields filled out.
-func NewScatterChartArgs(parent string, title string, data *ChartData, height int) *ScatterChartArgs {
+func NewScatterChart(parent string, data *ChartData) *ScatterChartArgs {
 	new := &ScatterChartArgs{Object: js.Global.Get("Object").New()}
 	new.Parent = parent
-	new.Title = title
 	new.Type = "scatter"
 	new.Data = data
-	new.Height = height
 	return new
 }
 
-// SetIsSeries is a small helper that just allows users to work with booleans
-// instead of 0's and 1's. In this case, users can set the JS property "is_series" to 1
-// by calling chartArgs.SetIsSeries(true).
-func (chartArgs *ScatterChartArgs) SetIsSeries(val bool) {
+func (chartArgs *ScatterChartArgs) WithTitle(title string) *ScatterChartArgs {
+	chartArgs.Title = title
+	return chartArgs
+}
+
+func (chartArgs *ScatterChartArgs) WithHeight(height int) *ScatterChartArgs {
+	chartArgs.Height = height
+	return chartArgs
+}
+
+func (chartArgs *ScatterChartArgs) WithColors(colors []string) *ScatterChartArgs {
+	chartArgs.Colors = colors
+	return chartArgs
+}
+
+func (chartArgs *ScatterChartArgs) SetXAxisMode(mode string) *ScatterChartArgs {
+	chartArgs.XAxisMode = mode
+	return chartArgs
+}
+
+func (chartArgs *ScatterChartArgs) SetYAxisMode(mode string) *ScatterChartArgs {
+	chartArgs.YAxisMode = mode
+	return chartArgs
+}
+
+// SetIsSeries allows us to set is_series using a boolean instead of 1/0's.
+func (chartArgs *ScatterChartArgs) SetIsSeries(val bool) *ScatterChartArgs {
 	chartArgs.SetBton("is_series", val)
+	return chartArgs
+}
+
+func (chartArgs *ScatterChartArgs) WithFormatTooltipX(callback func(string) string) *ScatterChartArgs {
+	chartArgs.FormatTooltipX = callback
+	return chartArgs
+}
+
+func (chartArgs *ScatterChartArgs) WithFormatTooltipY(callback func(string) string) *ScatterChartArgs {
+	chartArgs.FormatTooltipY = callback
+	return chartArgs
 }
 
 func (chartArgs *ScatterChartArgs) SetBton(key string, val bool) {
@@ -83,6 +113,11 @@ func (chart *ScatterChart) HideAverages() {
 
 // Render returns a ScatterChart that allows users to call the above functions.
 func (chartArgs *ScatterChartArgs) Render() *ScatterChart {
+	// Set defaults that aren't handled by frappe.
+	if chartArgs.Height == 0 {
+		chartArgs.Height = 150
+	}
+	// Create actual chart.
 	new := ScatterChart{js.Global.Get("Chart").New(&chartArgs)}
 	return &new
 }

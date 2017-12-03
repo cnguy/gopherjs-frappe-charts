@@ -65,7 +65,10 @@ where `static.js` is the name of your bundled JS file when your folder is named 
 The basic development flow of this library is:
 
 1) Chart data: Declare your data via NewDataset() and labels (an exception is Heatmap which simply takes a map[string]{interface})
-2) Chart args: Declare the basic core arguments via NewXXXChartArgs(), and then set extra config if needed (heatline, is_navigable), where `XXX` is Bar, Scatter, etc.. Note that it's easy to swap NewXXXChartArgs to a different chart just by changing the name due to the fact that the API for each chart works the same.
+2) Chart args: Create the arguments builder via NewXXXChart(), and then set extra config if needed (heatline, is_navigable, etc), where `XXX` is Bar, Scatter, etc.. Note that it's easy to swap NewXXXChart to a different chart just by changing the name due to the fact that the API for each chart works the same.
+
+Tip: Use WithXXX/SetXXX to chain arguments.
+
 3) Call Render() on the chart args (which may also return a chart object which you can call certain functions on such as ShowSum, ShowAverages). 
 
 Basically, every type of frappe-chart (Bar, Scatter, etc) are divided into separate classes so that there's more type-safety. For example, frappe_chart.show_sums() only works on bar charts, but it's still callable on the line chart (even though it doesn't work). I simply just don't include this method in the struct LineChart. I'm not doing any inheritance stuffs atm since I hacked this together really fast. Will clean up code as I improve though!
@@ -105,17 +108,17 @@ func main() {
 		),
 	}
 
-	// Prepare constructor arguments via the NewChartArgs helper
-	chartArgs := charts.NewBarChartArgs("#chart", "My Awesome Chart", chartData, 250)
-	// TIP: Try swapping NewBarChartArgs with NewPercentageChartArgs or NewScatterChartArgs
+	chart := charts.NewBarChart("#chart", chartData).
+		WithHeight(250). // `150` is default if this call is not applied.
+		WithColors([]string{"light-blue", "violet"}).
+		Render() // not calling Render returns a XXXChartArgs instance instead
+
+	// TIP: Try swapping NewBarChart with NewPercentageChart or NewScatterChart
 	// to see how easy it is to swap to a different type of chart.
-	chartArgs.Colors = []string{"light-blue", "violet"}
 	// chartArgs.Parent = "#chart"
 	// chartArgs.Title = "My Awesome Chart"
 	// chartArgs.IsNavigable = ...
 	// chartArgs.Heatline = ...
-
-	chart := chartArgs.Render()
 	println(chart) // to suppress the annoying error
 }
 ```
@@ -127,6 +130,7 @@ Output 1:
 #### Navigable:
 
 ```go
+package main
 
 import (
 	charts "github.com/cnguy/gopherjs-frappe-charts"
@@ -142,14 +146,14 @@ func main() {
 	dataset := charts.NewDataset("Events", values)
 	chartData.Datasets = []*charts.Dataset{dataset}
 
-	// Prepare constructor arguments
 	chartTitle := "Fireball/Bolide Events - Yearly (more than 5 reports)"
-	chartArgs := charts.NewBarChartArgs("#chart", chartTitle, chartData, 180)
-	chartArgs.Colors = []string{"orange"}
-	chartArgs.SetIsNavigable(true) // chartArgs.IsNavigable = 1
-	chartArgs.SetIsSeries(true)    // chartArgs.IsSeries = 1
+	chart := charts.NewBarChart("#chart", chartData).
+		WithTitle(chartTitle).
+		WithColors([]string{"orange"}).
+		SetIsNavigable(true). // ChartArgs#IsNavigable = 1
+		SetIsSeries(true).    // ChartArgs#IsSeries = 1
+		Render()
 
-	chart := chartArgs.Render()
 	println(chart)
 }
 ```
@@ -190,18 +194,18 @@ func main() {
 	dataset := charts.NewDataset("", values)
 	chartData.Datasets = []*charts.Dataset{dataset}
 
-	// Prepare constructor arguments
 	chartTitle := "Mean Total Sunspot Count - Yearly"
-	chartArgs := charts.NewLineChartArgs("#chart", chartTitle, chartData, 180)
-	chartArgs.Colors = []string{"blue"}
-	chartArgs.SetShowDots(false)
-	chartArgs.SetHeatline(true)
-	chartArgs.SetRegionFill(true)
-	chartArgs.XAxisMode = "tick"
-	chartArgs.YAxisMode = "span"
-	chartArgs.SetIsSeries(true)
+	chart := charts.NewLineChart("#chart", chartData).
+		WithTitle(chartTitle).
+		WithColors([]string{"blue"}).
+		SetShowDots(false).
+		SetHeatline(true).
+		SetRegionFill(true).
+		SetXAxisMode("tick").
+		SetYAxisMode("span").
+		SetIsSeries(true).
+		Render()
 
-	chart := chartArgs.Render()
 	println(chart)
 }
 ```
@@ -222,7 +226,6 @@ import (
 )
 
 func main() {
-	// Prepare data
 	chartData := charts.NewChartData()
 	chartData.Labels = []string{
 		"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat",
@@ -232,11 +235,9 @@ func main() {
 		charts.NewDataset("", []interface{}{25, 50, -10, 15, 18, 32, 27}),
 	}
 
-	// Prepare constructor arguments
-	chartArgs := charts.NewBarChartArgs("#chart", "", chartData, 250)
-	chartArgs.Colors = []string{"purple", "orange"}
-
-	chart := chartArgs.Render()
+	chart := charts.NewBarChart("#chart", chartData).
+		WithColors([]string{"purple", "orange"}).
+		Render()
 
 	time.Sleep(1 * time.Second)
 	chart.ShowSums()
@@ -278,11 +279,13 @@ func main() {
 		charts.NewDataset("Events", reportCountList),
 	}
 	barChartTitle := "Fireball/Bolide Events - Yearly (more than 5 reports"
-	barChartArgs := charts.NewBarChartArgs("#chart", barChartTitle, barChartData, 180)
-	barChartArgs.Colors = []string{"orange"}
-	barChartArgs.SetIsNavigable(true)
-	barChartArgs.SetIsSeries(true)
-	barChart := barChartArgs.Render()
+	barChart := charts.NewBarChart("#chart", barChartData).
+		WithTitle(barChartTitle).
+		WithHeight(180).
+		WithColors([]string{"orange"}).
+		SetIsNavigable(true).
+		SetIsSeries(true).
+		Render()
 
 	// Make line chart
 	lineChartValues := []interface{}{36, 46, 45, 32, 27, 31, 30, 36, 39, 49, 0, 0}
@@ -293,10 +296,11 @@ func main() {
 	lineChartData.Datasets = []*charts.Dataset{
 		charts.NewDataset("", lineChartValues),
 	}
-	lineChartArgs := charts.NewLineChartArgs("#chart-2", "", lineChartData, 180)
-	lineChartArgs.Colors = []string{"green"}
-	lineChartArgs.SetIsSeries(true)
-	lineChart := lineChartArgs.Render()
+	lineChart := charts.NewLineChart("#chart-2", lineChartData).
+		WithHeight(180).
+		WithColors([]string{"green"}).
+		SetIsSeries(true).
+		Render()
 
 	// Prepare update values for event listener
 	moreLineData := []*charts.UpdateValueSet{
@@ -347,10 +351,11 @@ func main() {
 		data[strconv.Itoa(currentTimestamp)] = rand.Intn(10)
 		currentTimestamp += 86400
 	}
-	chartArgs := charts.NewHeatmapArgs("#chart", data, 115)
-	// Halloween colors
-	// chartArgs.LegendColors = []string{"#ebedf0", "#fdf436", "#ffc700", "#ff9100", "#06001c"}
-	chartArgs.Render()
+	charts.NewHeatmapChart("#chart", data).
+		WithHeight(115).
+		/* Halloween colors */
+		// WithLegendColors([]string{"#ebedf0", "#fdf436", "#ffc700", "#ff9100", "#06001c"}).
+		Render()
 }
 ```
 
@@ -395,10 +400,11 @@ func main() {
 		),
 	}
 
-	chartArgs := charts.NewScatterChartArgs("#chart", "", chartData, 250)
-	chartArgs.Colors = []string{"light-blue", "violet"}
+	chart := charts.NewScatterChart("#chart", chartData).
+		WithHeight(250).
+		WithColors([]string{"red", "green"}).
+		Render()
 	temp := 4
-	chart := chartArgs.Render()
 	for i := 0; i < 100; i++ {
 		go func(i interface{}) {
 			val := rand.Intn(3) + 2*i.(int)
