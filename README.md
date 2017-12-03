@@ -30,7 +30,7 @@ Various chart operations (append, remove, pop) with randomized data and actions:
 
 Make sure you also have the [necessary JS files](https://github.com/frappe/charts#installation).
 
-Currently, this API supports frappe-chart version 0.0.3.
+Currently, this API supports frappe/charts@0.0.7 (maybe 0.0.8 too, since it seems that they didn't change the API in that version).
 
 Dependencies will be managed via [dep](https://github.com/golang/dep) in the future.
 
