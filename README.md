@@ -91,6 +91,7 @@ func main() {
 	_ = charts.NewBarChart("#chart", chartData).Render()
 }
 ```
+![Alt text](/_pictures/the_bare_minimum.png?raw=true "The Bare Minimum")
 
 This is the bare minimum needed to create a chart. Try swapping `NewBarChart` with other functions such as `NewPercentageChart` or `NewPieChart`.
 
