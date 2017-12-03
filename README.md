@@ -57,7 +57,7 @@ Following examples assume an HTML file like so:
 	<div id="chart"></div>
 	<div id="chart-2"></div>
 	<div id="heatmap"></div>
-	<script src="https://unpkg.com/frappe-charts@0.0.3/dist/frappe-charts.min.iife.js"></script>
+	<script src="https://unpkg.com/frappe-charts@0.0.7/dist/frappe-charts.min.iife.js"></script>
 	<script src="static.js" data-cover></script>
 </body>
 </html>
