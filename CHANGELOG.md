@@ -1,6 +1,6 @@
 # 0.0.2
 
-This version works with frappe/charts v0.0.2.
+This version works with frappe/charts v0.0.7.
 
 This library exposes a cleaner API for creating charts now.
 
