@@ -16,6 +16,7 @@ Various chart operations (append, remove, pop) with randomized data and actions:
 ## Contents
 * [Installation](#installation)
 * [Breaking Changes](#breaking-changes)
+* [The Bare Minimum](#the-bare-minimum)
 * [Usage](#usage)
 * [Disclaimer](#disclaimer)
 * [Contributions](#contributions)
@@ -41,7 +42,7 @@ This libary seeks to be updated to always work with the latest version of frappe
 
 Frappe hasn't changed their API dramatically so far, so one can expect that this library won't change dramatically as well. If there are breaking changes, it should be easy to update one's code by simply following the type errors.
 
-### Usage
+### The Bare Minimum
 
 Following examples assume an HTML file like so:
 
@@ -54,6 +55,8 @@ Following examples assume an HTML file like so:
 </head>
 <body>
 	<div id="chart"></div>
+	<div id="chart-2"></div>
+	<div id="heatmap"></div>
 	<script src="https://unpkg.com/frappe-charts@0.0.3/dist/frappe-charts.min.iife.js"></script>
 	<script src="static.js" data-cover></script>
 </body>
@@ -61,6 +64,43 @@ Following examples assume an HTML file like so:
 ```
 
 where `static.js` is the name of your bundled JS file when your folder is named `static` and you run `gopherjs build`.
+
+```go
+package main
+
+import (
+	charts "github.com/cnguy/gopherjs-frappe-charts"
+)
+
+func main() {
+	chartData := charts.NewChartData()
+	chartData.Labels = []string{
+		"1", "2", "3",
+	}
+	chartData.Datasets = []*charts.Dataset{
+		charts.NewDataset(
+			"Some Data",
+			[]interface{}{25, 40, 30},
+		),
+		charts.NewDataset(
+			"Another Set",
+			[]interface{}{25, 50, -10},
+		),
+	}
+
+	_ = charts.NewBarChart("#chart", chartData).Render()
+}
+```
+
+This is the bare minimum needed to create a chart. Try swapping `NewBarChart` with other functions such as `NewPercentageChart` or `NewPieChart`.
+
+frappe already sets defaults for a lot of properties. All `New${Type}Chart` calls handles the two necessary properties (the title and the chart data).
+
+Everything else is optional (the title, colors, etc).
+
+To learn how to provide more arguments, scroll down to [Usage](#usage).
+
+### Usage
 
 The basic development flow of this library is:
 
