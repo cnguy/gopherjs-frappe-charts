@@ -1,3 +1,7 @@
+# 0.0.4 (BREAKING, but easy to adopt)
+
+Some functions such as AppendDataPoint and AddDataPoint still used interface{} types, and so this release fixes that.
+
 # 0.0.3 (BREAKING, but easy to adopt)
 
 This version still works with frappe/charts v0.0.7.
