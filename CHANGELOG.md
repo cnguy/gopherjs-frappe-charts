@@ -1,4 +1,10 @@
-# 0.0.2
+# 0.0.3 (BREAKING, but easy to adopt)
+
+This version still works with frappe/charts v0.0.7.
+
+All []interface{} types have been replaced (end-user-wise) with either []float64 or []int.
+
+# 0.0.2 (BREAKING, but easy to adopt)
 
 This version works with frappe/charts v0.0.7.
 
