@@ -16,11 +16,15 @@ type HeatmapArgs struct {
 	LegendColors    []string               `js:"legend_colors"`
 }
 
-func NewHeatmapChart(parent string, data map[string]interface{}) *HeatmapArgs {
+func NewHeatmapChart(parent string, data map[string]int) *HeatmapArgs {
 	new := &HeatmapArgs{Object: js.Global.Get("Object").New()}
 	new.Parent = parent
 	new.Type = "heatmap"
-	new.Data = data
+	fixedData := make(map[string]interface{})
+	for k, v := range data {
+		fixedData[k] = v
+	}
+	new.Data = fixedData
 	return new
 }
 

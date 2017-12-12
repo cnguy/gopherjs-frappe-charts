@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"reflect"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -9,5 +10,5 @@ import (
 func TestNumberLabelsToStr(t *testing.T) {
 	i1 := []int{1, 2, 3, 4, 5}
 	s1 := []string{"1", "2", "3", "4", "5"}
-	assert.Equal(t, NumberLabelsToStr(i1), s1)
+	assert.True(t, reflect.DeepEqual(s1, NumberLabelsToStr(i1)))
 }

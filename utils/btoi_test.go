@@ -7,6 +7,6 @@ import (
 )
 
 func TestBtoi(t *testing.T) {
-	assert.Equal(t, Btoi(true), 1)
-	assert.Equal(t, Btoi(false), 0)
+	assert.Equal(t, 1, Btoi(true))
+	assert.Equal(t, 0, Btoi(false))
 }

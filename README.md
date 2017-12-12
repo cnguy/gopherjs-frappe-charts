@@ -5,11 +5,13 @@
 
 "`Simple, responsive, modern SVG Charts with zero dependencies`"
 
+This library provides a type-safe, builder-based API for the simple and awesome [frappe/charts](https://github.com/frappe/charts).
+
 Event listener with navigable bar chart:
 
 ![Alt text](/_pictures/event_listener.gif?raw=true "Event Listener")
 
-Various chart operations (append, remove, pop) with randomized data and actions:
+Various chart operations (append, remove, pop) with (mock "realtime") randomized data and actions:
 
 ![Alt text](/_pictures/realtime.gif?raw=true "Realtime")
 
@@ -80,11 +82,11 @@ func main() {
 	chartData.Datasets = []*charts.Dataset{
 		charts.NewDataset(
 			"Some Data",
-			[]interface{}{25, 40, 30},
+			[]float64{25, 40, 30},
 		),
 		charts.NewDataset(
 			"Another Set",
-			[]interface{}{25, 50, -10},
+			[]float64{25, 50, -10},
 		),
 	}
 
@@ -103,16 +105,19 @@ To learn how to provide more arguments, scroll down to [Usage](#usage).
 
 ### Usage
 
-The basic development flow of this library is:
+Simply declare chart data via `NewChartData()` and pass in array of `*Datasets` constructed by `NewDataset()`.
 
-1) Chart data: Declare your data via NewDataset() and labels (an exception is Heatmap which simply takes a map[string]{interface})
-2) Chart args: Create the arguments builder via NewXXXChart(), and then set extra config if needed (heatline, is_navigable, etc), where `XXX` is Bar, Scatter, etc.. Note that it's easy to swap NewXXXChart to a different chart just by changing the name due to the fact that the API for each chart works the same.
+This data can then be passed in to 99% of the charts (Heatmap is different).
 
-Tip: Use WithXXX/SetXXX to chain arguments.
+This library uses the builder pattern to handle optional configurations. Every chart can be immediately rendered simply by doing
 
-3) Call Render() on the chart args (which may also return a chart object which you can call certain functions on such as ShowSum, ShowAverages). 
+```go
+NewSomeChart("#parent", myData).Render()
+```
 
-Basically, every type of frappe-chart (Bar, Scatter, etc) are divided into separate classes so that there's more type-safety. For example, frappe_chart.show_sums() only works on bar charts, but it's still callable on the line chart (even though it doesn't work). I simply just don't include this method in the struct LineChart. I'm not doing any inheritance stuffs atm since I hacked this together really fast. Will clean up code as I improve though!
+If you would like to use optional configuration, check out the docs or simply just use your IDE (NewSomeChart returns a chainable object).
+
+Tip: Prefer using the helpers instead of struct literals.
 
 * [Hello World](#hello-world)
 * [Navigable](#navigable)
@@ -141,11 +146,11 @@ func main() {
 	chartData.Datasets = []*charts.Dataset{
 		charts.NewDataset(
 			"Some Data",
-			[]interface{}{25, 40, 30, 35, 8, 52, 17, -4},
+			[]float64{25, 40, 30, 35, 8, 52, 17, -4},
 		),
 		charts.NewDataset(
 			"Another Set",
-			[]interface{}{25, 50, -10, 15, 18, 32, 27, 14},
+			[]float64{25, 50, -10, 15, 18, 32, 27, 14},
 		),
 	}
 
@@ -156,10 +161,6 @@ func main() {
 
 	// TIP: Try swapping NewBarChart with NewPercentageChart or NewScatterChart
 	// to see how easy it is to swap to a different type of chart.
-	// chartArgs.Parent = "#chart"
-	// chartArgs.Title = "My Awesome Chart"
-	// chartArgs.IsNavigable = ...
-	// chartArgs.Heatline = ...
 	println(chart) // to suppress the annoying error
 }
 ```
@@ -183,7 +184,7 @@ func main() {
 	chartData.Labels = []string{
 		"2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017",
 	}
-	values := []interface{}{17, 40, 33, 44, 126, 156, 324, 333, 478, 495, 373}
+	values := []float64{17, 40, 33, 44, 126, 156, 324, 333, 478, 495, 373}
 	dataset := charts.NewDataset("Events", values)
 	chartData.Datasets = []*charts.Dataset{dataset}
 
@@ -225,7 +226,7 @@ func main() {
 		1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006,
 		2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016,
 	})
-	values := []interface{}{
+	values := []float64{
 		132.9, 150.0, 149.4, 148.0, 94.4, 97.6, 54.1, 49.2, 22.5, 18.4,
 		39.3, 131.0, 220.1, 218.9, 198.9, 162.4, 91.0, 60.5, 20.6, 14.8,
 		33.9, 123.0, 211.1, 191.8, 203.3, 133.0, 76.1, 44.9, 25.1, 11.6,
@@ -272,8 +273,8 @@ func main() {
 		"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat",
 	}
 	chartData.Datasets = []*charts.Dataset{
-		charts.NewDataset("", []interface{}{25, 40, 30, 35, 8, 52, 17}),
-		charts.NewDataset("", []interface{}{25, 50, -10, 15, 18, 32, 27}),
+		charts.NewDataset("", []float64{25, 40, 30, 35, 8, 52, 17}),
+		charts.NewDataset("", []float64{25, 50, -10, 15, 18, 32, 27}),
 	}
 
 	chart := charts.NewBarChart("#chart", chartData).
@@ -309,7 +310,7 @@ import (
 
 func main() {
 	// Make bar chart
-	reportCountList := []interface{}{17, 40, 33, 44, 126, 156,
+	reportCountList := []float64{17, 40, 33, 44, 126, 156,
 		324, 333, 478, 495, 373}
 	barChartData := charts.NewChartData()
 	barChartData.Labels = []string{
@@ -329,7 +330,7 @@ func main() {
 		Render()
 
 	// Make line chart
-	lineChartValues := []interface{}{36, 46, 45, 32, 27, 31, 30, 36, 39, 49, 0, 0}
+	lineChartValues := []float64{36, 46, 45, 32, 27, 31, 30, 36, 39, 49, 0, 0}
 	lineChartData := charts.NewChartData()
 	lineChartData.Labels = []string{
 		"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
@@ -345,17 +346,17 @@ func main() {
 
 	// Prepare update values for event listener
 	moreLineData := []*charts.UpdateValueSet{
-		charts.NewUpdateValueSet([]interface{}{4, 0, 3, 1, 1, 2, 1, 2, 1, 0, 1, 1}),
-		charts.NewUpdateValueSet([]interface{}{2, 3, 3, 2, 1, 4, 0, 1, 2, 7, 11, 4}),
-		charts.NewUpdateValueSet([]interface{}{7, 7, 2, 4, 0, 1, 5, 3, 1, 2, 0, 1}),
-		charts.NewUpdateValueSet([]interface{}{0, 2, 6, 2, 2, 1, 2, 3, 6, 3, 7, 10}),
-		charts.NewUpdateValueSet([]interface{}{9, 10, 8, 10, 6, 5, 8, 8, 24, 15, 10, 13}),
-		charts.NewUpdateValueSet([]interface{}{9, 13, 16, 9, 4, 5, 7, 10, 14, 22, 23, 24}),
-		charts.NewUpdateValueSet([]interface{}{20, 22, 28, 19, 28, 19, 14, 19, 51, 37, 29, 38}),
-		charts.NewUpdateValueSet([]interface{}{29, 20, 22, 16, 16, 19, 24, 26, 57, 31, 46, 2}),
-		charts.NewUpdateValueSet([]interface{}{36, 24, 38, 27, 15, 22, 24, 38, 32, 57, 139, 26}),
-		charts.NewUpdateValueSet([]interface{}{37, 36, 32, 33, 12, 34, 52, 45, 58, 57, 64, 35}),
-		charts.NewUpdateValueSet([]interface{}{36, 46, 45, 32, 27, 31, 30, 36, 39, 49, 0, 0}),
+		charts.NewUpdateValueSet([]float64{4, 0, 3, 1, 1, 2, 1, 2, 1, 0, 1, 1}),
+		charts.NewUpdateValueSet([]float64{2, 3, 3, 2, 1, 4, 0, 1, 2, 7, 11, 4}),
+		charts.NewUpdateValueSet([]float64{7, 7, 2, 4, 0, 1, 5, 3, 1, 2, 0, 1}),
+		charts.NewUpdateValueSet([]float64{0, 2, 6, 2, 2, 1, 2, 3, 6, 3, 7, 10}),
+		charts.NewUpdateValueSet([]float64{9, 10, 8, 10, 6, 5, 8, 8, 24, 15, 10, 13}),
+		charts.NewUpdateValueSet([]float64{9, 13, 16, 9, 4, 5, 7, 10, 14, 22, 23, 24}),
+		charts.NewUpdateValueSet([]float64{20, 22, 28, 19, 28, 19, 14, 19, 51, 37, 29, 38}),
+		charts.NewUpdateValueSet([]float64{29, 20, 22, 16, 16, 19, 24, 26, 57, 31, 46, 2}),
+		charts.NewUpdateValueSet([]float64{36, 24, 38, 27, 15, 22, 24, 38, 32, 57, 139, 26}),
+		charts.NewUpdateValueSet([]float64{37, 36, 32, 33, 12, 34, 52, 45, 58, 57, 64, 35}),
+		charts.NewUpdateValueSet([]float64{36, 46, 45, 32, 27, 31, 30, 36, 39, 49, 0, 0}),
 	}
 
 	barChart.AddDataSelectListener(func(event *charts.DataSelectEvent) {
@@ -386,7 +387,7 @@ import (
 )
 
 func main() {
-	data := make(map[string]interface{})
+	data := make(map[string]int)
 	currentTimestamp := 1477699200
 	for i := 0; i < 375; i++ {
 		data[strconv.Itoa(currentTimestamp)] = rand.Intn(10)
@@ -433,11 +434,11 @@ func main() {
 	chartData.Datasets = []*charts.Dataset{
 		charts.NewDataset(
 			"Some Data",
-			[]interface{}{25, 40, 30},
+			[]float64{25, 40, 30},
 		),
 		charts.NewDataset(
 			"Another Set",
-			[]interface{}{25, 50, -10},
+			[]float64{25, 50, -10},
 		),
 	}
 

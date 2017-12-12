@@ -1,6 +1,7 @@
 package charts
 
 import (
+	"github.com/cnguy/gopherjs-frappe-charts/utils"
 	"github.com/gopherjs/gopherjs/js"
 )
 
@@ -22,8 +23,8 @@ type UpdateValueSet struct {
 }
 
 // NewUpdateValueSet is a helper to conveniently create an UpdateValueSet.
-func NewUpdateValueSet(values []interface{}) *UpdateValueSet {
+func NewUpdateValueSet(values []float64) *UpdateValueSet {
 	new := &UpdateValueSet{Object: js.Global.Get("Object").New()}
-	new.Values = values
+	new.Values = utils.FloatSliceToInterface(values)
 	return new
 }

@@ -107,13 +107,13 @@ func (chart *LineChart) UpdateValues(updateValues *UpdateValuesArgs) {
 }
 
 // AppendDataPoint calls add_data_point without an index (which defaults to the end).
-func (chart *LineChart) AppendDataPoint(values []interface{}, label string) {
-	chart.Call("add_data_point", values, label)
+func (chart *LineChart) AppendDataPoint(values []float64, label string) {
+	chart.Call("add_data_point", utils.FloatSliceToInterface(values), label)
 }
 
 // AddDataPoint allows us to add a data point to anywhere in the chart.
-func (chart *LineChart) AddDataPoint(values []interface{}, label string, index int) {
-	chart.Call("add_data_point", values, label, index)
+func (chart *LineChart) AddDataPoint(values []float64, label string, index int) {
+	chart.Call("add_data_point", utils.FloatSliceToInterface(values), label, index)
 }
 
 // PopDataPoint calls remove_data_point without arguments, which defaults to removing the element at index 0.

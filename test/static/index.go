@@ -1,24 +1,22 @@
 package main
 
 import (
+	"math/rand"
+	"strconv"
+
 	charts "github.com/cnguy/gopherjs-frappe-charts"
 )
 
 func main() {
-	chartData := charts.NewChartData()
-	chartData.Labels = []string{
-		"1", "2", "3",
+	data := make(map[string]int)
+	currentTimestamp := 1477699200
+	for i := 0; i < 375; i++ {
+		data[strconv.Itoa(currentTimestamp)] = rand.Intn(10)
+		currentTimestamp += 86400
 	}
-	chartData.Datasets = []*charts.Dataset{
-		charts.NewDataset(
-			"Some Data",
-			[]interface{}{25, 40, 30},
-		),
-		charts.NewDataset(
-			"Another Set",
-			[]interface{}{25, 50, -10},
-		),
-	}
-
-	_ = charts.NewBarChart("#chart", chartData).Render()
+	charts.NewHeatmapChart("#chart", data).
+		WithHeight(115).
+		/* Halloween colors */
+		// WithLegendColors([]string{"#ebedf0", "#fdf436", "#ffc700", "#ff9100", "#06001c"}).
+		Render()
 }

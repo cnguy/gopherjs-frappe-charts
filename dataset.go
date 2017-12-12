@@ -1,12 +1,15 @@
 package charts
 
-import "github.com/gopherjs/gopherjs/js"
+import (
+	"github.com/cnguy/gopherjs-frappe-charts/utils"
+	"github.com/gopherjs/gopherjs/js"
+)
 
 // NewDataset allows us to quickly create Dataset objects with the required values.
-func NewDataset(title string, values []interface{}) (dataset *Dataset) {
+func NewDataset(title string, values []float64) (dataset *Dataset) {
 	dataset = &Dataset{Object: js.Global.Get("Object").New()}
 	dataset.Title = title
-	dataset.Values = values
+	dataset.Values = utils.FloatSliceToInterface(values)
 	return dataset
 }
 
