@@ -86,12 +86,12 @@ func (chart *BarChart) UpdateValues(updateValues *UpdateValuesArgs) {
 	chart.Call("update_values", updateValues.Values, updateValues.Labels)
 }
 
-func (chart *BarChart) AppendDataPoint(values []interface{}, label string) {
-	chart.Call("add_data_point", values, label)
+func (chart *BarChart) AppendDataPoint(values []float64, label string) {
+	chart.Call("add_data_point", utils.FloatSliceToInterface(values), label)
 }
 
-func (chart *BarChart) AddDataPoint(values []interface{}, label string, index int) {
-	chart.Call("add_data_point", values, label, index)
+func (chart *BarChart) AddDataPoint(values []float64, label string, index int) {
+	chart.Call("add_data_point", utils.FloatSliceToInterface(values), label, index)
 }
 
 func (chart *BarChart) PopDataPoint() {

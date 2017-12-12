@@ -460,9 +460,9 @@ func main() {
 			case 1:
 				chart.PopDataPoint()
 			case 2:
-				chart.AppendDataPoint([]interface{}{rand.Intn(1000), rand.Intn(1000)}, newLabel)
+				chart.AppendDataPoint([]float64{float64(rand.Intn(1000)), float64(rand.Intn(1000))}, newLabel)
 			case 3:
-				chart.AddDataPoint([]interface{}{rand.Intn(200), rand.Intn(200)}, newLabel, rand.Intn(200))
+				chart.AddDataPoint([]float64{float64(rand.Intn(200)), float64(rand.Intn(200))}, newLabel, rand.Intn(200))
 			}
 			temp++
 			println(temp)

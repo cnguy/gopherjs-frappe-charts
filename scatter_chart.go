@@ -83,12 +83,12 @@ func (chart *ScatterChart) UpdateValues(updateValues *UpdateValuesArgs) {
 	chart.Call("update_values", updateValues.Values, updateValues.Labels)
 }
 
-func (chart *ScatterChart) AppendDataPoint(values []interface{}, label string) {
-	chart.Call("add_data_point", values, label)
+func (chart *ScatterChart) AppendDataPoint(values []float64, label string) {
+	chart.Call("add_data_point", utils.FloatSliceToInterface(values), label)
 }
 
-func (chart *ScatterChart) AddDataPoint(values interface{}, label string, index int) {
-	chart.Call("add_data_point", values, label, index)
+func (chart *ScatterChart) AddDataPoint(values []float64, label string, index int) {
+	chart.Call("add_data_point", utils.FloatSliceToInterface(values), label, index)
 }
 
 // PopDataPoint calls remove_data_point without arguments, which defaults to removing the element at index 0.
