@@ -28,3 +28,13 @@ func NewUpdateValueSet(values []float64) *UpdateValueSet {
 	new.Values = utils.FloatSliceToInterface(values)
 	return new
 }
+
+// NewUpdateValueSets is a helper to reduce the amount of boilercode when using NewUpdateValueSet with multiple datasets.
+func NewUpdateValueSets(sets ...[]float64) []*UpdateValueSet {
+	new := []*UpdateValueSet{}
+	for i := 0; i < len(sets); i++ {
+		newSet := NewUpdateValueSet(sets[i])
+		new = append(new, newSet)
+	}
+	return new
+}
