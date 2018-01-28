@@ -3,6 +3,7 @@ package charts
 import (
 	"github.com/cnguy/gopherjs-frappe-charts/utils"
 	"github.com/gopherjs/gopherjs/js"
+	"time"
 )
 
 type HeatmapArgs struct {
@@ -12,7 +13,7 @@ type HeatmapArgs struct {
 	Type            string                 `js:"type"`
 	Height          int                    `js:"height"`
 	DiscreteDomains int                    `js:"discrete_domains"`
-	Start           *js.Object             `js:"start"` // TODO
+	Start           time.Time              `js:"start"` // TODO
 	LegendColors    []string               `js:"legend_colors"`
 }
 
@@ -40,6 +41,11 @@ func (chartArgs *HeatmapArgs) SetDiscreteDomain(val bool) *HeatmapArgs {
 
 func (chartArgs *HeatmapArgs) WithLegendColors(colors []string) *HeatmapArgs {
 	chartArgs.LegendColors = colors
+	return chartArgs
+}
+
+func (chartArgs *HeatmapArgs) WithStartDate(date time.Time) *HeatmapArgs {
+	chartArgs.Start = date
 	return chartArgs
 }
 
